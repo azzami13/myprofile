@@ -13,6 +13,12 @@ const icons: Record<string, ReactNode> = {
       <path d="M4 21c0-4 4-6 8-6s8 2 8 6" />
     </>
   ),
+  "#education": (
+    <>
+      <path d="M22 10v6M2 10l10-5 10 5-10 5z" />
+      <path d="M6 12v5c3 3 9 3 12 0v-5" />
+    </>
+  ),
   "#skills": <path d="M9 18h6M10 21h4M12 3a6 6 0 0 0-4 10.5c.7.7 1 1.5 1 2.5h6c0-1 .3-1.8 1-2.5A6 6 0 0 0 12 3z" />,
   "#experience": <path d="M3 7h18v13H3zM8 7V4h8v3M3 13h18" />,
   "#projects": <path d="M3 6a2 2 0 0 1 2-2h4l2 3h8a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />,

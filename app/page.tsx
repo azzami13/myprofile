@@ -1,5 +1,4 @@
 import { site } from "@/src/data/site";
-import Link from "next/link";
 import SiteHeader from "./Header";
 import HeroCarousel from "./HeroCarousel";
 import ThemeLamp from "./ThemeLamp";
@@ -7,7 +6,7 @@ import ProjectsSection from "./ProjectsSection";
 import { projects, portfolioFile } from "@/src/data/projects";
 
 const whatsappLink = `https://wa.me/${site.whatsapp}?text=${encodeURIComponent(
-  `Halo Azzam, saya melihat portofolio Anda dan ingin berdiskusi.`
+  `Halo Azzam, saya melihat portofolio Anda di mazaproject.my.id dan ingin berdiskusi terkait peluang kerja/proyek.`
 )}`;
 
 export default function Home() {
@@ -17,6 +16,7 @@ export default function Home() {
       <ThemeLamp />
       <Hero />
       <About />
+      <Education />
       <Skills />
       <Experience />
       <Projects />
@@ -27,28 +27,43 @@ export default function Home() {
 }
 
 function Header() {
-  return <SiteHeader nav={site.nav} cta="Hubungi Saya" ctaHref={whatsappLink} shortName={site.shortName} />;
+  return (
+    <SiteHeader
+      nav={site.nav}
+      cta="Hubungi Saya"
+      ctaHref={whatsappLink}
+      shortName={site.shortName}
+    />
+  );
 }
 
 function Hero() {
   return (
     <section id="home" className="hero section-shell">
       <div className="hero-copy">
-        <span className="eyebrow reveal">Portofolio pribadi</span>
+        <span className="hero-hello reveal">Halo, saya</span>
         <h1 className="reveal">{site.name}</h1>
-        <p className="hero-title">{site.title}</p>
-        <p>{site.tagline}</p>
+        <p className="hero-title">
+          Fresh Graduate D3 Teknik Informatika Politeknik Negeri Bandung dengan fokus pada{" "}
+          <strong>software engineering</strong>, <strong>analisis sistem</strong>, dan{" "}
+          <strong>software quality assurance</strong>.
+        </p>
+        <p className="hero-description">
+          Berpengalaman membangun aplikasi web, mobile, dan WebGIS dari analisis kebutuhan, implementasi sistem, hingga pengujian.
+        </p>
         <div className="hero-actions">
           <a className="btn primary" href="#projects">
             Lihat Proyek
           </a>
-          <a className="btn accent" href={portfolioFile} download="Portofolio_Azzam.pdf">Unduh Portofolio</a>
           <a className="btn secondary" href={site.resumeFile} target="_blank" rel="noreferrer">
             Unduh CV
           </a>
+          <a className="btn secondary" href={portfolioFile} download="Portofolio_Azzam.pdf">
+            Portofolio
+          </a>
         </div>
       </div>
-      <aside className="hero-portrait" aria-label="Foto Muhammad Azzam Izzuddin">
+      <aside className="hero-portrait" aria-label="Foto profil Muhammad Azzam Izzuddin">
         <HeroCarousel />
       </aside>
     </section>
@@ -59,8 +74,8 @@ function About() {
   return (
     <section id="profile" className="section-shell split-section">
       <div>
-        <span className="eyebrow reveal">Profil</span>
-        <h2>Dari kebutuhan pengguna hingga aplikasi siap digunakan.</h2>
+        
+        <h2>Tentang saya</h2>
       </div>
       <div className="about-content reveal">
         {site.about.map((paragraph) => (
@@ -79,21 +94,64 @@ function About() {
   );
 }
 
+function Education() {
+  return (
+    <section id="education" className="section-shell section-block compact-block">
+      <SectionHeading
+        eyebrow="Pendidikan"
+        title="Pendidikan"
+        body=""
+      />
+      <div className="education-list">
+        {site.education.map((edu) => (
+          <article className="experience-card reveal" key={edu.institution}>
+            <div className="experience-head">
+              <div>
+                <h3>{edu.program}</h3>
+                <p>
+                  <strong>{edu.institution}</strong> • {edu.status}
+                </p>
+              </div>
+              <span>{edu.year}</span>
+            </div>
+            <div className="contribution-box" style={{ marginTop: "14px" }}>
+              <h5>Tugas Akhir: {edu.finalProject.title}</h5>
+              <p style={{ margin: "0", fontSize: "14px", lineHeight: "1.65" }}>
+                {edu.finalProject.description}
+              </p>
+            </div>
+          </article>
+        ))}
+      </div>
+    </section>
+  );
+}
+
 function Skills() {
   return (
     <section id="skills" className="section-shell section-block">
       <SectionHeading
         eyebrow="Keahlian"
-        title="Membangun aplikasi web, mobile, dan WebGIS."
-        body="Keahlian yang digunakan dalam proyek mencakup analisis kebutuhan, pengembangan antarmuka dan API, pengolahan data, hingga dokumentasi implementasi."
+        title="Keahlian"
+        body=""
       />
-      <div className="skill-grid">
-        {site.skills.map((skill) => (
-          <article className="skill-card reveal" key={skill.group}>
-            <h3>{skill.group}</h3>
-            <div className="chip-list">
-              {skill.items.map((item) => (
-                <span key={item}>{item}</span>
+      <div className="skill-categories-grid">
+        {site.skillCategories.map((cat) => (
+          <article className="skill-cat-card reveal" key={cat.group}>
+            <div className="skill-cat-head">
+              <h3>{cat.group}</h3>
+              <p>{cat.description}</p>
+            </div>
+            <div className="skill-subgroups">
+              {cat.subgroups.map((sub) => (
+                <div className="skill-subgroup-item" key={sub.name}>
+                  <h4>{sub.name}</h4>
+                  <div className="chip-list">
+                    {sub.items.map((item) => (
+                      <span key={item}>{item}</span>
+                    ))}
+                  </div>
+                </div>
               ))}
             </div>
           </article>
@@ -108,27 +166,28 @@ function Experience() {
     <section id="experience" className="section-shell section-block compact-block">
       <SectionHeading
         eyebrow="Pengalaman"
-        title="Pengalaman magang di pengembangan perangkat lunak."
-        body="Di PT Labtech Inovasi Indonesia, saya mengerjakan analisis kebutuhan, pengembangan API dan frontend, pembaruan real-time, scraping, pengujian, serta dokumentasi teknis."
+        title="Pengalaman"
+        body=""
       />
       <div className="experience-list">
         {site.experience.map((item) => (
           <article className="experience-card reveal" key={item.company}>
             <div className="experience-head">
               <div>
+                <span className="exp-type-tag">{item.type}</span>
                 <h3>{item.role}</h3>
-                <p>
-                  {item.company} • {item.location}
+                <p className="exp-meta">
+                  <strong>{item.company}</strong> • {item.location}
                 </p>
               </div>
-              <span>{item.period}</span>
+              <span className="exp-period">{item.period}</span>
             </div>
             <div className="chip-list small">
               {item.stack.map((tech) => (
                 <span key={tech}>{tech}</span>
               ))}
             </div>
-            <ul>
+            <ul className="exp-points">
               {item.points.map((point) => (
                 <li key={point}>{point}</li>
               ))}
@@ -144,9 +203,9 @@ function Projects() {
   return (
     <section id="projects" className="section-shell section-block">
       <SectionHeading
-        eyebrow="Proyek pilihan"
-        title="Empat proyek, dengan konteks dan kebutuhan yang berbeda."
-        body="Pilih salah satu proyek untuk melihat detail, galeri, prototipe, dan tautan produknya."
+        eyebrow="Proyek"
+        title="Proyek pilihan"
+        body="Klik salah satu proyek untuk melihat detailnya."
       />
       <ProjectsSection projects={projects} />
     </section>
@@ -154,27 +213,39 @@ function Projects() {
 }
 
 function Contact() {
+  const links = [
+    { label: "Email", value: site.email, href: `mailto:${site.email}` },
+    { label: "WhatsApp", value: site.phone, href: whatsappLink },
+    { label: "LinkedIn", value: "azzamizzuddin", href: site.linkedin },
+    { label: "GitHub", value: "azzami13", href: site.github },
+    { label: "Instagram", value: "@mazzazu", href: site.instagram }
+  ];
   return (
-    <section id="contact" className="section-shell contact-section">
-      <div>
-        <span className="eyebrow reveal">Kontak</span>
-        <h2>Mari bicarakan proyek atau kesempatan berikutnya.</h2>
+    <section id="contact" className="section-shell contact-wrap">
+      <div className="contact-box reveal">
+        <h2>Mari terhubung.</h2>
         <p>
-          Saya terbuka untuk diskusi proyek, magang, kolaborasi, atau kesempatan lain di bidang pengembangan perangkat lunak.
+          Terbuka untuk posisi software developer, system analyst, atau QA, serta kerja sama proyek. Berbasis di{" "}
+          {site.location}.
         </p>
-      </div>
-      <div className="contact-card reveal">
-        <a href={`mailto:${site.email}`}>{site.email}</a>
-        <a href={whatsappLink} target="_blank" rel="noreferrer">
-          {site.phone}
-        </a>
-        <a href={site.github} target="_blank" rel="noreferrer">
-          github.com/azzami13
-        </a>
-        <a href={site.instagram} target="_blank" rel="noreferrer">
-          instagram.com/mazzazu
-        </a>
-        <span>{site.location}</span>
+        <div className="contact-actions">
+          <a className="btn primary" href={whatsappLink} target="_blank" rel="noreferrer">
+            Chat WhatsApp
+          </a>
+          <a className="btn secondary" href={`mailto:${site.email}`}>
+            Kirim Email
+          </a>
+        </div>
+        <ul className="contact-links">
+          {links.map((l) => (
+            <li key={l.label}>
+              <a href={l.href} target={l.href.startsWith("mailto") ? undefined : "_blank"} rel="noreferrer">
+                <span>{l.label}</span>
+                <strong>{l.value}</strong>
+              </a>
+            </li>
+          ))}
+        </ul>
       </div>
     </section>
   );
@@ -183,45 +254,31 @@ function Contact() {
 function Footer() {
   return (
     <footer className="footer">
-      <span>© {new Date().getFullYear()} {site.name}.</span>
-      <a href="#home">Kembali ke atas ↑</a>
+      <div className="footer-brand">
+        <strong>{site.name}</strong>
+        <p>{site.headline}</p>
+      </div>
+      <div className="footer-links">
+        <a href="#home">Kembali ke atas ↑</a>
+      </div>
     </footer>
   );
 }
 
-function ImageSlot({
-  src,
-  label,
+function SectionHeading({
+  eyebrow,
   title,
-  compact = false
+  body
 }: {
-  src: string;
-  label: string;
+  eyebrow: string;
   title: string;
-  compact?: boolean;
+  body: string;
 }) {
   return (
-    <div
-      className={`image-slot ${compact ? "compact" : ""}`}
-      style={{
-        backgroundImage: `url("${src}")`
-      }}
-      aria-label={label}
-    >
-      <div>
-        <strong>{title}</strong>
-        <span>{label}</span>
-      </div>
-    </div>
-  );
-}
-
-function SectionHeading({ eyebrow, title, body }: { eyebrow: string; title: string; body: string }) {
-  return (
     <div className="section-heading">
-      <span className="eyebrow reveal">{eyebrow}</span>
+      
       <h2>{title}</h2>
-      <p>{body}</p>
+      {body && <p>{body}</p>}
     </div>
   );
 }
