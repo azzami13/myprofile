@@ -1,7 +1,11 @@
 import { site } from "@/src/data/site";
+import Link from "next/link";
+import SiteHeader from "./Header";
+import ProjectsSection from "./ProjectsSection";
+import { projects, portfolioFile } from "@/src/data/projects";
 
 const whatsappLink = `https://wa.me/${site.whatsapp}?text=${encodeURIComponent(
-  `Halo Azzam, saya melihat web profile kamu dan ingin berdiskusi.`
+  `Halo Azzam, saya melihat portofolio Anda dan ingin berdiskusi.`
 )}`;
 
 export default function Home() {
@@ -20,43 +24,34 @@ export default function Home() {
 }
 
 function Header() {
-  return (
-    <header className="site-header">
-      <a href="#home" className="brand" aria-label={`${site.name} home`}>
-        <span className="brand-mark">A</span>
-        <span>{site.shortName}</span>
-      </a>
-      <nav className="nav" aria-label="Main navigation">
-        {site.nav.map((item) => (
-          <a key={item.href} href={item.href}>
-            {item.label}
-          </a>
-        ))}
-      </nav>
-      <a className="header-cta" href={whatsappLink} target="_blank" rel="noreferrer">
-        Contact
-      </a>
-    </header>
-  );
+  return <SiteHeader nav={site.nav} cta="Hubungi Saya" ctaHref={whatsappLink} shortName={site.shortName} />;
 }
 
 function Hero() {
   return (
     <section id="home" className="hero section-shell">
       <div className="hero-copy">
-        <span className="eyebrow">Personal Web Profile</span>
-        <h1>{site.name}</h1>
+        <span className="eyebrow reveal">Portofolio pribadi</span>
+        <h1 className="reveal">{site.name}</h1>
         <p className="hero-title">{site.title}</p>
         <p>{site.tagline}</p>
         <div className="hero-actions">
           <a className="btn primary" href="#projects">
-            View Projects
+            Lihat Proyek
           </a>
+          <a className="btn accent" href={portfolioFile} download="Portofolio_Azzam.pdf">Unduh Portofolio</a>
           <a className="btn secondary" href={site.resumeFile} target="_blank" rel="noreferrer">
-            Download Resume
+            Unduh CV
           </a>
         </div>
       </div>
+      <aside className="hero-portrait" aria-label="Foto Muhammad Azzam Izzuddin">
+        <div className="portrait-image" />
+        <div className="portrait-note">
+          <span>Berbasis di</span>
+          <strong>Cimahi, Jawa Barat</strong>
+        </div>
+      </aside>
     </section>
   );
 }
@@ -65,10 +60,10 @@ function About() {
   return (
     <section id="profile" className="section-shell split-section">
       <div>
-        <span className="eyebrow">About Me</span>
-        <h2>Software engineering student who works from analysis to deployment.</h2>
+        <span className="eyebrow reveal">Profil</span>
+        <h2>Dari kebutuhan pengguna hingga aplikasi siap digunakan.</h2>
       </div>
-      <div className="about-content">
+      <div className="about-content reveal">
         {site.about.map((paragraph) => (
           <p key={paragraph}>{paragraph}</p>
         ))}
@@ -89,13 +84,13 @@ function Skills() {
   return (
     <section id="skills" className="section-shell section-block">
       <SectionHeading
-        eyebrow="Core Skills"
-        title="Skill set for web, mobile, GIS, analysis, and deployment."
-        body="Bagian ini dibuat sebagai ringkasan kemampuan teknis dan non-teknis yang bisa langsung dibaca recruiter atau calon mitra project."
+        eyebrow="Keahlian"
+        title="Membangun aplikasi web, mobile, dan WebGIS."
+        body="Keahlian yang digunakan dalam proyek mencakup analisis kebutuhan, pengembangan antarmuka dan API, pengolahan data, hingga dokumentasi implementasi."
       />
       <div className="skill-grid">
         {site.skills.map((skill) => (
-          <article className="skill-card" key={skill.group}>
+          <article className="skill-card reveal" key={skill.group}>
             <h3>{skill.group}</h3>
             <div className="chip-list">
               {skill.items.map((item) => (
@@ -113,13 +108,13 @@ function Experience() {
   return (
     <section id="experience" className="section-shell section-block compact-block">
       <SectionHeading
-        eyebrow="Experience"
-        title="Internship and real project exposure."
-        body="Pengalaman kerja ditulis dengan fokus pada kontribusi software engineering: analisis kebutuhan, pengembangan API, frontend, database, realtime, scraping, testing, dan deployment."
+        eyebrow="Pengalaman"
+        title="Pengalaman magang di pengembangan perangkat lunak."
+        body="Di PT Labtech Inovasi Indonesia, saya mengerjakan analisis kebutuhan, pengembangan API dan frontend, pembaruan real-time, scraping, pengujian, serta dokumentasi teknis."
       />
       <div className="experience-list">
         {site.experience.map((item) => (
-          <article className="experience-card" key={item.company}>
+          <article className="experience-card reveal" key={item.company}>
             <div className="experience-head">
               <div>
                 <h3>{item.role}</h3>
@@ -150,48 +145,11 @@ function Projects() {
   return (
     <section id="projects" className="section-shell section-block">
       <SectionHeading
-        eyebrow="Selected Projects"
-        title="Portfolio utama untuk menunjukkan kemampuan end-to-end."
-        body="Kumpulan project yang mewakili pengalaman analisis kebutuhan, pengembangan aplikasi, database, mobile, dan WebGIS."
+        eyebrow="Proyek pilihan"
+        title="Empat proyek, dengan konteks dan kebutuhan yang berbeda."
+        body="Pilih salah satu proyek untuk melihat detail, galeri, prototipe, dan tautan produknya."
       />
-      <div className="project-stack">
-        {site.projects.map((project) => (
-          <article className="project-card" key={project.title}>
-            <div className="project-main">
-              <div className="project-number">{project.number}</div>
-              <div>
-                <span className="project-category">{project.category}</span>
-                <h3>{project.title}</h3>
-                <h4>{project.subtitle}</h4>
-                <p>{project.overview}</p>
-                <p className="outcome"><strong>Value:</strong> {project.outcome}</p>
-                <div className="project-role">Role: {project.role}</div>
-                <div className="chip-list small">
-                  {project.stack.map((tech) => (
-                    <span key={tech}>{tech}</span>
-                  ))}
-                </div>
-              </div>
-            </div>
-            <div className="project-media">
-              <ImageSlot src={project.image} label={project.imageLabel} title={project.title} />
-              <div className="project-gallery">
-                {project.gallery.map((image) => (
-                  <ImageSlot key={image.src} src={image.src} label={image.label} title={project.title} compact />
-                ))}
-              </div>
-            </div>
-            <div className="contribution-box">
-              <h5>Main Contributions</h5>
-              <ul>
-                {project.contributions.map((item) => (
-                  <li key={item}>{item}</li>
-                ))}
-              </ul>
-            </div>
-          </article>
-        ))}
-      </div>
+      <ProjectsSection projects={projects} />
     </section>
   );
 }
@@ -200,13 +158,13 @@ function Contact() {
   return (
     <section id="contact" className="section-shell contact-section">
       <div>
-        <span className="eyebrow">Contact</span>
-        <h2>Let&apos;s connect and build something useful.</h2>
+        <span className="eyebrow reveal">Kontak</span>
+        <h2>Mari bicarakan proyek atau kesempatan berikutnya.</h2>
         <p>
-          Terbuka untuk diskusi project, internship, kolaborasi, atau kesempatan software engineering lainnya.
+          Saya terbuka untuk diskusi proyek, magang, kolaborasi, atau kesempatan lain di bidang pengembangan perangkat lunak.
         </p>
       </div>
-      <div className="contact-card">
+      <div className="contact-card reveal">
         <a href={`mailto:${site.email}`}>{site.email}</a>
         <a href={whatsappLink} target="_blank" rel="noreferrer">
           {site.phone}
@@ -226,8 +184,8 @@ function Contact() {
 function Footer() {
   return (
     <footer className="footer">
-      <span>© {new Date().getFullYear()} {site.name}. All rights reserved.</span>
-      <a href="#home">Back to top ↑</a>
+      <span>© {new Date().getFullYear()} {site.name}.</span>
+      <a href="#home">Kembali ke atas ↑</a>
     </footer>
   );
 }
@@ -262,7 +220,7 @@ function ImageSlot({
 function SectionHeading({ eyebrow, title, body }: { eyebrow: string; title: string; body: string }) {
   return (
     <div className="section-heading">
-      <span className="eyebrow">{eyebrow}</span>
+      <span className="eyebrow reveal">{eyebrow}</span>
       <h2>{title}</h2>
       <p>{body}</p>
     </div>
