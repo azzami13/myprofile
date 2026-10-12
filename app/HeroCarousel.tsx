@@ -5,23 +5,33 @@ import { useEffect, useRef, useState } from "react";
 const slides = [
   { src: "/images/profile-azzam.jpg", caption: "Turning ideas into useful experiences" },
   { src: "/images/profile-azzam-2.jpg", caption: "Building clean, reliable software" },
-  { src: "/images/profile-azzam-3.jpg", caption: "Always learning, always shipping" }
+  { src: "/images/profile-azzam-3.jpg", caption: "Always learning, always shipping" },
+  { src: "/images/profile-azzam-4.jpg", caption: "Crafting solutions with purpose" }
 ];
 
 const FALLBACK = slides[0].src;
 
 export default function HeroCarousel() {
   const [i, setI] = useState(0);
+  const [prev, setPrev] = useState<number | null>(null);
+  const cur = useRef(0);
+  const change = (n: number) => {
+    const next = (n + slides.length) % slides.length;
+    if (next === cur.current) return;
+    setPrev(cur.current);
+    cur.current = next;
+    setI(next);
+  };
   const [paused, setPaused] = useState(false);
   const startX = useRef<number | null>(null);
 
   useEffect(() => {
     if (paused) return;
-    const id = window.setInterval(() => setI((v) => (v + 1) % slides.length), 4200);
+    const id = window.setInterval(() => change(cur.current + 1), 4200);
     return () => window.clearInterval(id);
   }, [paused, i]);
 
-  const go = (n: number) => setI((n + slides.length) % slides.length);
+  const go = (n: number) => change(n);
 
   return (
     <div
@@ -44,7 +54,7 @@ export default function HeroCarousel() {
             key={s.src}
             src={s.src}
             alt={`Foto ${n + 1} Muhammad Azzam Izzuddin`}
-            className={`carousel-slide ${n === i ? "active" : n === (i - 1 + slides.length) % slides.length ? "prev" : ""}`}
+            className={`carousel-slide ${n === i ? "active" : n === prev ? "prev" : ""}`}
             draggable={false}
             onError={(e) => {
               if (!e.currentTarget.src.endsWith(FALLBACK)) e.currentTarget.src = FALLBACK;
@@ -63,3 +73,4 @@ export default function HeroCarousel() {
     </div>
   );
 }
+

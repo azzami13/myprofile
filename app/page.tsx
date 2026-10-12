@@ -1,6 +1,8 @@
 import { site } from "@/src/data/site";
 import Link from "next/link";
 import SiteHeader from "./Header";
+import HeroCarousel from "./HeroCarousel";
+import ThemeLamp from "./ThemeLamp";
 import ProjectsSection from "./ProjectsSection";
 import { projects, portfolioFile } from "@/src/data/projects";
 
@@ -12,6 +14,7 @@ export default function Home() {
   return (
     <main>
       <Header />
+      <ThemeLamp />
       <Hero />
       <About />
       <Skills />
@@ -46,11 +49,7 @@ function Hero() {
         </div>
       </div>
       <aside className="hero-portrait" aria-label="Foto Muhammad Azzam Izzuddin">
-        <div className="portrait-image" />
-        <div className="portrait-note">
-          <span>Berbasis di</span>
-          <strong>Cimahi, Jawa Barat</strong>
-        </div>
+        <HeroCarousel />
       </aside>
     </section>
   );
